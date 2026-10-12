@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sentence Detection Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; line-height: 1.6; }
+    .test-case { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h1>ContextDict Sentence Test</h1>
+  
+  <div class="test-case" id="case1">
+    <p>This is a simple sentence. <span>The</span> <strong>quick</strong> brown <span id="target1">fox</span> jumps over the lazy dog. This is another sentence.</p>
+  </div>
+
+  <div class="test-case" id="case2">
+    <p>Dr. Smith went to the <span id="target2">hospital</span>. He is a good doctor.</p>
+  </div>
+
+  <div class="test-case" id="case3">
+    <div>
+      ContextDict is an <span id="target3">AI</span>-powered extension.
+      It translates words <i>inline</i>.
+    </div>
+  <div class="test-case" id="case-special-words">
+    <p>Testing special tokens: Version <strong id="testWordVersion">3.0</strong> was released recently.</p>
+    <p>Here is a single letter word: this is <strong id="testWordA">a</strong> test sentence.</p>
+  </div>
+
+  <div class="test-case" id="case-korean">
+    <h3>Korean Comments Test Case</h3>
+    <p>Comment: <strong id="testWordKorean">왜</strong> 저만 남겨두고 <strong id="testWordKorean2">가셨나요</strong>?</p>
+  </div>
+
+  <div class="test-case" id="case-iframe">
+    <h3>Iframe Test Case</h3>
+    <iframe id="testIframe" src="test-iframe.html" style="width: 600px; height: 300px; border: 1px solid #999;"></iframe>
+  </div>
+
+</body>
+</html>

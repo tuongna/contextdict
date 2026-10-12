@@ -1,0 +1,26 @@
+{
+  "name": "contextdict",
+  "version": "0.1.0",
+  "description": "ContextDict là tiện ích mở rộng (Chrome Extension Manifest V3) giúp bạn dịch từ hoặc cụm từ khi rê chuột (hover), kết hợp trí tuệ nhân tạo (OpenRouter API) để phân tích **ngữ cảnh câu** và **chủ đề trang web**, mang lại bản dịch chuẩn xác nhất thay vì dịch nghĩa đen máy móc.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test:unit": "vitest run tests/unit",
+    "test:e2e": "node tests/e2e.test.js",
+    "test": "npm run test:unit && npm run test:e2e"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.7.1",
+    "puppeteer": "^25.11.0",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  },
+  "type": "module",
+  "dependencies": {
+    "nat-ui": "file:../nat-ui"
+  }
+}

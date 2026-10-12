@@ -1,0 +1,28 @@
+/* content/content.css */
+/* Injected page styles for highlighted vocabulary words */
+
+.contextdict-highlight {
+  background: linear-gradient(
+    120deg,
+    rgba(99, 102, 241, 0.22) 0%,
+    rgba(168, 85, 247, 0.22) 100%
+  ) !important;
+  border-bottom: 2px solid #6366f1 !important;
+  border-radius: 3px !important;
+  padding: 1px 3px !important;
+  margin: 0 !important;
+  color: inherit !important;
+  cursor: pointer !important;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+.contextdict-highlight:hover {
+  background: linear-gradient(
+    120deg,
+    rgba(99, 102, 241, 0.4) 0%,
+    rgba(168, 85, 247, 0.4) 100%
+  ) !important;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.35) !important;
+}

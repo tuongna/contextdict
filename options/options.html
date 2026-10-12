@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContextDict — Cài Đặt & Quản Lý API Key</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="options-wrapper">
+      <!-- Top Navigation & Brand Header -->
+      <header class="options-header">
+        <div class="header-brand">
+          <img
+            src="../icons/icon-48.png"
+            alt="ContextDict Logo"
+            class="brand-logo"
+          />
+          <div>
+            <h1 class="brand-title">ContextDict</h1>
+            <p class="brand-subtitle">Cài Đặt Hệ Thống & Quản Lý API Key AI</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <nat-badge id="globalStatusPill" color="surface" value="Đang tải…">
+            <span class="status-dot"></span>
+            <span id="globalStatusText">Đang tải…</span>
+          </nat-badge>
+        </div>
+      </header>
+
+      <!-- Main Settings Grid -->
+      <main class="options-main">
+        <form id="optionsForm" autocomplete="off">
+          <!-- CARD 1: OpenRouter API Key & Connection -->
+          <nat-card variant="outlined" class="settings-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                  </svg>
+                </span>
+                <div>
+                  <h2 class="card-title">OpenRouter API Key</h2>
+                  <p class="card-desc">Khóa API dùng để phân tích ngữ cảnh và dịch thuật thông minh với AI</p>
+                </div>
+              </div>
+              <a
+                href="https://openrouter.ai/keys"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="helper-link"
+              >
+                Lấy key miễn phí tại OpenRouter ↗
+              </a>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group">
+                <label for="apiKey">Khóa API (Secret Key)</label>
+                <div class="input-action-group">
+                  <div class="input-wrap">
+                    <input
+                      type="password"
+                      id="apiKey"
+                      name="apiKey"
+                      placeholder="sk-or-v1-…"
+                      spellcheck="false"
+                      autocomplete="off"
+                    />
+                    <button
+                      type="button"
+                      id="toggleKeyVisibility"
+                      class="input-icon-btn"
+                      title="Hiện hoặc ẩn API Key"
+                      aria-label="Hiện hoặc ẩn API Key"
+                    >
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                  <nat-button
+                    type="button"
+                    id="testApiKeyBtn"
+                    variant="tonal"
+                    title="Gửi thử một yêu cầu ping để kiểm tra tính hợp lệ của API Key"
+                  >
+                    <svg slot="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    <span>Kiểm tra kết nối</span>
+                  </nat-button>
+                </div>
+                <div id="testResultFeedback" class="test-feedback hidden" aria-live="polite"></div>
+                <span class="input-hint">
+                  Khóa API được lưu trữ an toàn trong bộ nhớ máy cục bộ (Chrome Sync Storage) và chỉ gửi trực tiếp đến cổng OpenRouter.
+                </span>
+              </div>
+            </div>
+          </nat-card>
+
+          <!-- CARD 2: AI Model Selection & Health -->
+          <nat-card variant="outlined" class="settings-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path>
+                  </svg>
+                </span>
+                <div>
+                  <h2 class="card-title">Mô Hình AI & Sức Khỏe Máy Chủ</h2>
+                  <p class="card-desc">Lựa chọn mô hình ưu tiên, chấm điểm chất lượng và giám sát phản hồi thời gian thực</p>
+                </div>
+              </div>
+              <div class="card-actions-group" style="display: flex; gap: 8px; align-items: center;">
+                <nat-button
+                  type="button"
+                  id="resetStatsBtn"
+                  variant="outlined"
+                  title="Đặt lại toàn bộ dữ liệu thống kê và điểm số mô hình về 0"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                  <span>Đặt lại thống kê</span>
+                </nat-button>
+                <nat-button
+                  type="button"
+                  id="refreshHealthBtn"
+                  variant="tonal"
+                  title="Đo độ trễ tất cả các mô hình miễn phí (mỗi lần đo tính 1 lượt ping)"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                  </svg>
+                  <span>Đo độ trễ (Ping All)</span>
+                </nat-button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group">
+                <label for="modelSelect">Mô hình AI mặc định</label>
+                <select id="modelSelect" name="model">
+                  <optgroup label="⚡ Mô hình Miễn Phí (Free Tier — Khuyên dùng)">
+                    <option value="google/gemma-4-26b-a4b-it:free">Google: Gemma 4 26B MoE (Khuyên dùng — 262k context, miễn phí)</option>
+                    <option value="google/gemma-4-31b-it:free">Google: Gemma 4 31B (Chất lượng cao, miễn phí)</option>
+                    <option value="nvidia/nemotron-3.5-lightning:free">NVIDIA: Nemotron 3.5 Lightning (Siêu nhanh, miễn phí)</option>
+                    <option value="nvidia/nemotron-3-super-120b-a12b:free">NVIDIA: Nemotron 3 Super 120B (Chính xác cao, miễn phí)</option>
+                    <option value="thinkingmachines/inkling:free">Thinking Machines: Inkling (1048k context, miễn phí)</option>
+                    <option value="deepseek/deepseek-r1:free">DeepSeek: DeepSeek R1 (Thinking / Suy luận sâu, miễn phí)</option>
+                    <option value="nex-agi/nex-n2.5-pro:free">Nex AGI: Nex-N2.5 Pro (Dự phòng, miễn phí)</option>
+                  </optgroup>
+                  <optgroup label="💎 Mô hình Cao Cấp (Premium Tier — Cần credit OpenRouter)">
+                    <option value="google/gemini-2.5-flash">Google: Gemini 2.5 Flash (Cực nhanh & chuẩn xác)</option>
+                    <option value="google/gemini-2.5-pro">Google: Gemini 2.5 Pro (Hiểu ngữ cảnh sâu)</option>
+                    <option value="anthropic/claude-3.5-sonnet">Anthropic: Claude 3.5 Sonnet (Dịch thuật ngữ cảnh xuất sắc)</option>
+                    <option value="anthropic/claude-3-opus">Anthropic: Claude 3 Opus (Chuyên sâu)</option>
+                    <option value="openai/gpt-4o">OpenAI: GPT-4o (Đa năng mạnh mẽ)</option>
+                    <option value="openai/gpt-4o-mini">OpenAI: GPT-4o Mini (Tiết kiệm & nhanh)</option>
+                    <option value="deepseek/deepseek-chat">DeepSeek: DeepSeek V3 (Thông minh & tiết kiệm)</option>
+                  </optgroup>
+                  <optgroup label="⚙️ Tuỳ chỉnh">
+                    <option value="__custom__">Nhập mã mô hình OpenRouter tuỳ chỉnh…</option>
+                  </optgroup>
+                </select>
+                <div id="customModelGroup" class="custom-model-group hidden" style="margin-top: 8px;">
+                  <input
+                    type="text"
+                    id="customModelInput"
+                    placeholder="Nhập ID mô hình (Ví dụ: anthropic/claude-opus-4.6 hoặc meta-llama/llama-3.3-70b-instruct)"
+                    aria-label="Mã mô hình OpenRouter tuỳ chỉnh"
+                  />
+                </div>
+                <span class="input-hint">
+                  Khi model chính gặp sự cố quá tải (429 / Timeout), ContextDict sẽ tự động chuyển mạch (auto-failover) sang model miễn phí có độ trễ thấp nhất.
+                </span>
+              </div>
+
+              <!-- Real-time model health list & Scoreboard -->
+              <div class="health-container">
+                <div class="health-toolbar">
+                  <div class="health-sort-controls">
+                    <span class="health-sort-label">Sắp xếp:</span>
+                    <div class="health-sort-pills" role="radiogroup" aria-label="Sắp xếp danh sách mô hình">
+                      <button type="button" class="health-sort-btn active" data-sort="default" role="radio" aria-checked="true">
+                        Ưu tiên
+                      </button>
+                      <button type="button" class="health-sort-btn" data-sort="score" role="radio" aria-checked="false">
+                        Điểm cao nhất
+                      </button>
+                      <button type="button" class="health-sort-btn" data-sort="latency" role="radio" aria-checked="false">
+                        Độ trễ thấp
+                      </button>
+                    </div>
+                  </div>
+                  <span class="health-scoring-note">
+                    Chấm điểm: 75% thành công + 25% độ trễ (mỗi lượt ping tính 1 lượt)
+                  </span>
+                </div>
+                <div class="health-table-header">
+                  <span class="col-model">Mô hình AI (Bấm để chọn)</span>
+                  <span class="col-score">Điểm / Hạng</span>
+                  <span class="col-success">Tỉ lệ thành công</span>
+                  <span class="col-latency">Độ trễ TB</span>
+                </div>
+                <div id="modelHealthList" class="health-table-body" role="list" aria-label="Danh sách trạng thái mô hình AI">
+                  <div class="health-loading" role="listitem">Đang tải danh sách mô hình…</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CARD 3: Interaction & Reading Experience -->
+          <section class="glass-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                  </svg>
+                </span>
+                <div>
+                  <h2 class="card-title">Trải Nghiệm Tra Cứu & Phát Âm</h2>
+                  <p class="card-desc">Tinh chỉnh cử chỉ rê chuột và phản hồi thị giác trên trang web</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="form-row">
+                <!-- Hover Delay -->
+                <div class="form-group flex-1">
+                  <div class="label-row">
+                    <label for="hoverDelay">Độ trễ kích hoạt khi rê chuột (Hover Delay)</label>
+                    <span id="hoverDelayValue" class="value-display">1000 ms</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="hoverDelay"
+                    name="hoverDelay"
+                    min="300"
+                    max="2500"
+                    step="50"
+                    value="1000"
+                    aria-valuemin="300"
+                    aria-valuemax="2500"
+                    aria-valuenow="1000"
+                  />
+                  <div class="range-labels">
+                    <span>Nhanh (300ms)</span>
+                    <span>Chuẩn (1000ms)</span>
+                    <span>Chậm (2500ms)</span>
+                  </div>
+                </div>
+
+                <!-- TTS Speed -->
+                <div class="form-group flex-1">
+                  <div class="label-row">
+                    <label for="ttsSpeed">Tốc độ đọc phát âm (TTS Speed)</label>
+                    <span id="ttsSpeedValue" class="value-display">1.0x</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="ttsSpeed"
+                    name="ttsSpeed"
+                    min="0.5"
+                    max="1.75"
+                    step="0.05"
+                    value="1.0"
+                    aria-valuemin="0.5"
+                    aria-valuemax="1.75"
+                    aria-valuenow="1.0"
+                  />
+                  <div class="range-labels">
+                    <span>Chậm (0.5x)</span>
+                    <span>Bình thường (1.0x)</span>
+                    <span>Nhanh (1.75x)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="checkbox-grid">
+                <div class="switch-setting-item">
+                  <nat-switch id="showHoverHint" checked aria-label="Chỉ báo gạch chân khi rê chuột"></nat-switch>
+                  <label for="showHoverHint" class="switch-setting-text">
+                    <strong>Chỉ báo gạch chân khi rê chuột</strong>
+                    <p class="checkbox-desc">Hiển thị đường gạch chân nét chấm nhẹ báo hiệu từ đang được nhận diện trước khi cửa sổ tra từ xuất hiện.</p>
+                  </label>
+                </div>
+
+                <div class="switch-setting-item">
+                  <nat-switch id="highlightSaved" checked aria-label="Đánh dấu từ đã lưu trong trang web"></nat-switch>
+                  <label for="highlightSaved" class="switch-setting-text">
+                    <strong>Đánh dấu từ đã lưu trong trang web</strong>
+                    <p class="checkbox-desc">Tự động tô sáng viền các từ vựng đã có trong Sổ từ vựng khi bạn lướt qua các bài báo hoặc tài liệu.</p>
+                  </label>
+                </div>
+
+                <div class="switch-setting-item">
+                  <nat-switch id="showRomaja" checked aria-label="Hiển thị phiên âm Romaja cho tiếng Hàn"></nat-switch>
+                  <label for="showRomaja" class="switch-setting-text">
+                    <strong>Hiển thị phiên âm Romaja (Tiếng Hàn)</strong>
+                    <p class="checkbox-desc">Hiển thị chữ cái Latin tương ứng (Revised Romanization) giúp người mới bắt đầu dễ dàng đọc được âm tiếng Hàn.</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </nat-card>
+
+          <!-- CARD 4: Data, Cache & Error Reporting -->
+          <nat-card variant="outlined" class="settings-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                    <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                  </svg>
+                </span>
+                <div>
+                  <h2 class="card-title">Dữ Liệu, Bộ Nhớ & Báo Cáo Sự Cố</h2>
+                  <p class="card-desc">Quản lý bộ nhớ đệm bản dịch và gửi báo cáo chẩn đoán lỗi</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group">
+                <label for="errorReportEmail">Email nhận báo cáo lỗi tự động (Tuỳ chọn)</label>
+                <input
+                  type="email"
+                  id="errorReportEmail"
+                  name="errorReportEmail"
+                  placeholder="your-email@example.com"
+                  autocomplete="email"
+                  spellcheck="false"
+                />
+                <span class="input-hint">
+                  Hệ thống sẽ tổng hợp mã lỗi kỹ thuật và gửi về email này khi có yêu cầu dịch thuật thất bại lặp lại.
+                </span>
+              </div>
+
+              <div class="action-buttons-wrap">
+                <nat-button
+                  type="button"
+                  id="clearCacheBtn"
+                  variant="outlined"
+                  title="Xóa toàn bộ bản dịch đã lưu trong cache máy"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Xoá Cache Bản Dịch</span>
+                </nat-button>
+
+                <nat-button
+                  type="button"
+                  id="copyDebugLogBtn"
+                  variant="outlined"
+                  title="Sao chép nhật ký chẩn đoán vào clipboard"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Sao Chép Debug Log</span>
+                </nat-button>
+
+                <nat-button
+                  type="button"
+                  id="submitErrorsBtn"
+                  variant="outlined"
+                  title="Gửi báo cáo lỗi đã ghi nhận"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  <span>Gửi Hàng Đợi Lỗi</span>
+                </nat-button>
+              </div>
+            </div>
+          </nat-card>
+        </form>
+
+        <!-- CARD 5: Góp Ý & Báo Cáo Lỗi Trực Tiếp (Formspree) -->
+        <nat-card variant="outlined" class="settings-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </span>
+              <div>
+                <h2 class="card-title">Góp Ý & Báo Cáo Sự Cố (Formspree)</h2>
+                <p class="card-desc">Gửi thông tin góp ý hoặc báo cáo chi tiết sự cố trực tiếp đến hộp thư của đội ngũ phát triển</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <form
+              id="feedbackForm"
+              action="https://formspree.io/f/mppwprbr"
+              method="POST"
+              class="formspree-form"
+            >
+              <div class="form-group">
+                <label for="feedbackEmail">Email của bạn (Your email):</label>
+                <input
+                  type="email"
+                  id="feedbackEmail"
+                  name="email"
+                  placeholder="your-email@example.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="feedbackMessage">Lời nhắn / Nội dung góp ý hoặc mô tả lỗi (Your message):</label>
+                <textarea
+                  id="feedbackMessage"
+                  name="message"
+                  rows="4"
+                  placeholder="Nhập lời nhắn, ý kiến đóng góp hoặc mô tả sự cố bạn gặp phải..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="feedback-submit-row">
+                <nat-button
+                  type="submit"
+                  id="submitFeedbackBtn"
+                  variant="filled"
+                  title="Gửi phản hồi qua Formspree"
+                >
+                  <svg slot="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  <span>Gửi đi (Send)</span>
+                </nat-button>
+                <div id="feedbackStatus" class="feedback-status" aria-live="polite"></div>
+              </div>
+            </form>
+          </div>
+        </nat-card>
+
+        <!-- Sticky Bottom Save Bar for Options Form -->
+        <div class="save-bar-glass">
+          <div id="saveFeedback" class="save-feedback" aria-live="polite"></div>
+          <nat-button type="submit" form="optionsForm" id="saveOptionsBtn" variant="filled">
+            <svg slot="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Lưu Cài Đặt</span>
+          </nat-button>
+        </div>
+      </main>
+
+      <footer class="options-footer">
+        <p>ContextDict v1.0.0 — Tiện ích tra cứu ngữ cảnh thông minh bằng AI</p>
+      </footer>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

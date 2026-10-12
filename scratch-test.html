@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+</head>
+<body>
+  <div id="content">
+    <p>This is the first sentence. The quick brown fox jumps over the lazy dog. This is the third sentence.</p>
+  </div>
+  <script src="dist/assets/context-collector.js-SVpKVTPG.js"></script>
+  <script>
+    setTimeout(() => {
+      const textNode = document.querySelector('p').childNodes[0];
+      // Hover on "fox" (index 44)
+      const offset = 44; 
+      const sentence = window.ContextDictCollector.getSentenceContext(textNode, offset);
+      console.log("DETECTED SENTENCE:", sentence);
+      document.body.setAttribute('data-result', sentence);
+    }, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "ContextDict - Context-Aware Hover Translator",
+  "version": "1.0.0",
+  "description": "D\u1ecbch t\u1eeb v\u00e0 c\u1ee5m t\u1eeb khi hover v\u1edbi ph\u00e2n t\u00edch ng\u1eef c\u1ea3nh c\u00e2u v\u00e0 ng\u1eef c\u1ea3nh trang web b\u1eb1ng AI",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms",
+    "offscreen"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "ContextDict Settings & Vocabulary"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "js": [
+        "content/tts.js",
+        "content/highlight.js",
+        "content/context-collector.js",
+        "content/tooltip-styles.js",
+        "content/tooltip.js",
+        "content/hover-detector.js",
+        "content/content.js"
+      ],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
